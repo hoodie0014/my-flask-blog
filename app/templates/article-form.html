@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="hero container">
+        <h1 class="hero__title">{{ action[0].upper() + action[1:] }} статью</h1>
+    </section>
+    <section class="article-editor container">
+        <form method="POST" class="article-form" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="article-form-row">
+                <label for="title" class="article-form__label form__label">Заголовок статьи</label>
+                <input
+                    id="title"
+                    name="title"
+                    class="article-form-input"
+                    type="text"
+                    value="{{ form.title.data if form.title.data }}"
+                    required
+                />
+                <div class="article-form-errors">
+                    {% for error in form.title.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="article-form-row">
+                <label for="articleCategory" class="article-form-label">Категория статьи</label>
+                <select
+                    id="articleCategory"
+                    name="category"
+                    class="article-form-input"
+                    required
+                >
+                    {% if not form.category.data %}
+                        <option selected disabled>Нет</option>
+                    {% endif %}
+                    {% if form.category.data == 'Технологии' %}
+                        <option value="Технологии" selected>Технологии</option>
+                    {% else %}
+                        <option value="Технологии">Технологии</option>
+                    {% endif %}
+                    {% if form.category.data == 'Политика' %}
+                        <option value="Политика" selected>Политика</option>
+                    {% else %}
+                        <option value="Политика">Политика</option>
+                    {% endif %}
+                    {% if form.category.data == 'Экономика' %}
+                        <option value="Экономика" selected>Экономика</option>
+                    {% else %}
+                        <option value="Экономика">Экономика</option>
+                    {% endif %}
+                    {% if form.category.data == 'Авто' %}
+                        <option value="Авто" selected>Авто</option>
+                    {% else %}
+                        <option value="Авто">Авто</option>
+                    {% endif %}
+                    {% if form.category.data == 'Инвестиции' %}
+                        <option value="Инвестиции" selected>Инвестиции</option>
+                    {% else %}
+                        <option value="Инвестиции">Инвестиции</option>
+                    {% endif %}
+                </select>
+                <div class="article-form-errors">
+                    {% for error in form.category.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="article-form-row">
+                <label for="articleText" class="article-form-label">Текст статьи</label>
+                <textarea
+                    id="articleText"
+                    name="article_text"
+                    class="article-form-textarea"
+                    rows="20"
+                    required
+                >{{ form.article_text.data if form.article_text.data }}</textarea>
+                <div class="article-form-errors">
+                    {% for error in form.article_text.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            </div>
+            <button type="submit" class="article-form-submit button">{{ action }}</button>
+        </form>
+    </section>
+{% endblock %}

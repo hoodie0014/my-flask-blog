@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="article-content container">
+        <header class="article-header">
+            <h1>{{article.title}}</h1>
+            {% if article.user == current_user %}
+            <a href="/delete-article/{{article.id}}" class="button">Удалить</a>
+            <a href="/edit-article/{{article.id}}" class="button">Редактировать</a>
+            {% endif %}
+        </header>
+        <div class="article-body">
+            <p>Категория: {{article.category}}</p>
+            <p>Дата: {{article.created_date.strftime('%d.%m.%Y %H:%M')}}</p>
+            <p>Автор: {{article.user.name}}</p>
+            <p>{{article.text}}</p>
+        </div>
+    </section>
+    <section class="article-comments container">
+        <header class="article-comments-header">
+            <div class="new-comment">
+                <h3 class="">Ваш комментарий</h3>
+                <form class="new-comment-form" method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="new-comment-form-row">
+                        <input
+                            id="commentAuthorName"
+                            name="author_name"
+                            class="new-comment-form-input"
+                            placeholder="Ваше имя"
+                            required
+                        />
+                    </div>
+                    <div class="new-comment-form-row">
+                        <textarea
+                            id="commentText"
+                            name="comment_text"
+                            class="new-comment-form-textarea"
+                            placeholder="Текст комментария"
+                            rows="4"
+                            required
+                        ></textarea>
+                    </div>
+                    <button type="submit" class="new-comment-form-submit button">Отправить</button>
+                </form>
+            </div>
+            <div class="all-comments">
+                <h2>Все комментарии</h2>
+                <ul class="all-comments-list">
+                {% for comment in article.comments %}
+                    <li class="all-comments-item article">
+                        <h4 class="article-comment__name">{{comment.author_name}}:</h4>
+                        <p class="article-comment__text">{{comment.text}}</p>
+                        <p class="article-comment__date">{{comment.date.strftime('%d.%m.%Y %H:%M')}}</p>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </header>
+    </section>
+{% endblock %}

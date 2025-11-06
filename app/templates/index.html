@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Добро пожаловать в Новостной Блог!</h1>
+    <ul>
+        {% for article in articles %}
+            <li>
+               <div class="article">
+                   {{ article.title }} - {{ article.created_date.strftime('%d.%m.%Y') }}
+                   {% if article.created_date == today %} <span class="new">Новое!</span> {% endif %}
+               </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

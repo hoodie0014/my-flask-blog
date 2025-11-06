@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="hero container">
+        <h1 class="hero__title">Все статьи</h1>
+    </section>
+    <section class="articles container">
+        <header class="articles-header">
+            <div>
+                {% if current_user.is_authenticated %}
+                <a
+                    href="{{ url_for('create_article') }}"
+                    class="button"
+                >
+                    Создать статью
+                </a>
+                {% endif %}
+            </div>
+        </header>
+        <div class="articles-category">
+            <form id="catForm">
+                <div>Категория</div>
+                <div>
+                    <select
+                        id="catParam"
+                        name="category"
+                    >
+                    {% if category_param == '' %}
+                        <option value="" selected>Все</option>
+                    {% else %}
+                        <option value="">Все</option>
+                    {% endif %}
+                    {% if category_param == 'Технологии' %}
+                        <option value="Технологии" selected>Технологии</option>
+                    {% else %}
+                        <option value="Технологии">Технологии</option>
+                    {% endif %}
+                    {% if category_param == 'Политика' %}
+                        <option value="Политика" selected>Политика</option>
+                    {% else %}
+                        <option value="Политика">Политика</option>
+                    {% endif %}
+                    {% if category_param == 'Экономика' %}
+                        <option value="Экономика" selected>Экономика</option>
+                    {% else %}
+                        <option value="Экономика">Экономика</option>
+                    {% endif %}
+                    {% if category_param == 'Авто' %}
+                        <option value="Авто" selected>Авто</option>
+                    {% else %}
+                        <option value="Авто">Авто</option>
+                    {% endif %}
+                    {% if category_param == 'Инвестиции' %}
+                        <option value="Инвестиции" selected>Инвестиции</option>
+                    {% else %}
+                        <option value="Инвестиции">Инвестиции</option>
+                    {% endif %}
+                    </select>
+                    <select
+                        id="sortParam"
+                        name="sort"
+                    >
+                        {% if sort_param == 'older' %}
+                            <option value="newer">Сначала новые</option>
+                            <option value="older" selected>Сначала старые</option>
+                        {% else %}
+                            <option value="newer" selected>Сначала новые</option>
+                            <option value="older">Сначала старые</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </form>
+        </div>
+        <ul class="articles-list">
+        {% for article in articles %}
+            <li>
+                <div class="article">
+                    <a
+                        href="/article/{{article.id}}"
+                        class="article-card__link"
+                    >
+                        {{article.title}}
+                    </a>
+                    <p>Категория: {{article.category}}</p>
+                    <time>
+                        {{ article.created_date.strftime('%d.%m.%Y %H:%M') }}
+                    </time>
+                    {% if article.created_date.date() == today %}
+                        <div class="new">Новое!</div>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    </section>
+    <script>
+        const catForm = document.querySelector('#catForm');
+        catForm.addEventListener('change', () => {
+            catForm.submit();
+        });
+    </script>
+{% endblock %}

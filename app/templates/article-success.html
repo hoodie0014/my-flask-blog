@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="hero container">
+        <h1 class="hero__title">Статья успешно {{ action }}!</h1>
+    </section>
+    <section class="success container">
+        <a href="{{ url_for('articles') }}" class="success__link">К списку статей</a>
+    </section>
+{% endblock %}
